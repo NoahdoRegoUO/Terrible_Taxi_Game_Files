@@ -18,6 +18,12 @@ public class Pedestrian : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //Set position to random waypoint and iterate waypoint
+        int tmpRand = Random.Range(0, waypoints.Length - 1);
+        transform.position = new Vector3(waypoints[tmpRand].transform.position.x, waypoints[tmpRand].transform.position.y, waypoints[tmpRand].transform.position.z);
+        waypointIndex = tmpRand;
+        IterateWaypointIndex();
+
         agent = GetComponent<NavMeshAgent>();
         UpdateDestination();
     }
@@ -25,19 +31,8 @@ public class Pedestrian : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if (walkTime > 0)
-        //{
-        //    gameObject.transform.Translate(new Vector3(0, -1, 0) * walkSpeed);
 
-        //    walkTime -= Time.deltaTime;
-        //}
-        //else
-        //{
-        //    walkTime = Random.Range(5.0f, 15.0f);
-        //    TurnRandom();
-        //}
-
-        if (Vector3.Distance(transform.position, target) < 1)
+        if (Vector3.Distance(transform.position, target) < 2)
         {
             IterateWaypointIndex();
             UpdateDestination();
@@ -62,5 +57,15 @@ public class Pedestrian : MonoBehaviour
     void TurnRandom()
     {
         //transform.eulerAngles = new Vector3(0, 90 * Random.Range(0, 3), 0);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Player" && !CarController.occupied)
+        {
+            CarController.occupied = true;
+            DestinationSpawner.Instance().activate();
+            gameObject.SetActive(false);
+        }
     }
 }

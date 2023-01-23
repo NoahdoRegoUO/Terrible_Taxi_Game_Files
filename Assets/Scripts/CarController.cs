@@ -6,6 +6,8 @@ public class CarController : MonoBehaviour
 {
     //Derived from "Arcade Style Car Controller || Unity Tutorial" by SpawnCampGames
 
+    private static CarController _instance;
+
     private float moveInput;
     public static float turnInput;
     private bool moving;
@@ -25,11 +27,24 @@ public class CarController : MonoBehaviour
 
     public static float speed;
 
+    public static bool occupied;
+
+    [SerializeField] public bool displayOccupied;
+
     void Start()
     {
+        _instance = this;
+
         // detach sphere + carCollider from car
         sphereRB.transform.parent = null;
         carColliderRB.transform.parent = null;
+
+        occupied = false;
+    }
+
+    public static CarController Instance()
+    {
+        return _instance;
     }
 
     void Update()
@@ -125,6 +140,9 @@ public class CarController : MonoBehaviour
         {
             transform.position = new Vector3(transform.position.x, 0, transform.position.z);
         }
+
+        //Display occupied status (TESTING)
+        displayOccupied = occupied;
     }
 
     private void FixedUpdate()
