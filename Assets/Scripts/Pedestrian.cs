@@ -9,11 +9,14 @@ public class Pedestrian : MonoBehaviour
     public float walkSpeed;
     public float walkTime;
 
+
     NavMeshAgent agent;
+    private float yBounceOffset;
+    private float yBounceFreq;
 
     public Transform[] waypoints;
     int waypointIndex;
-    Vector3 target;
+    private Vector3 target;
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +27,9 @@ public class Pedestrian : MonoBehaviour
         waypointIndex = tmpRand;
         IterateWaypointIndex();
 
+        yBounceOffset = Random.Range(0, 1);
+        yBounceFreq = Random.Range(2, 4);
+        
         agent = GetComponent<NavMeshAgent>();
         UpdateDestination();
     }
@@ -31,6 +37,9 @@ public class Pedestrian : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Equation for setting y position (walk bounce)
+        float yPos = (-1 * Mathf.Pow((float)-0.5 + ((yBounceFreq * Time.time - yBounceOffset) % 1), 2) + (float)1.1);
+        transform.position = new Vector3(transform.position.x, yPos, transform.position.z);
 
         if (Vector3.Distance(transform.position, target) < 2)
         {
@@ -52,11 +61,6 @@ public class Pedestrian : MonoBehaviour
         {
             waypointIndex = 0;
         }
-    }
-
-    void TurnRandom()
-    {
-        //transform.eulerAngles = new Vector3(0, 90 * Random.Range(0, 3), 0);
     }
 
     private void OnTriggerEnter(Collider other)
