@@ -9,6 +9,11 @@ public class Pedestrian : MonoBehaviour
     public float walkSpeed;
     public float walkTime;
 
+    public Transform startPos;
+
+    // Materials
+    [SerializeField] private Material[] suitColours;
+    [SerializeField] private Material[] skinColours;
 
     NavMeshAgent agent;
     private float yBounceOffset;
@@ -21,15 +26,33 @@ public class Pedestrian : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //Set position to random waypoint and iterate waypoint
+        MeshRenderer renderer = gameObject.GetComponent<MeshRenderer>();
+        Material[] materials = renderer.materials;
+
+        // Set suit colour
+        materials[0] = suitColours[Random.Range(0, suitColours.Length)];
+
+        // Set skin colours
+        materials[2] = skinColours[Random.Range(0, skinColours.Length)];
+
+        renderer.materials = materials;
+
+        // Set position to random waypoint and iterate waypoint
         int tmpRand = Random.Range(0, waypoints.Length - 1);
-        transform.position = new Vector3(waypoints[tmpRand].transform.position.x, waypoints[tmpRand].transform.position.y, waypoints[tmpRand].transform.position.z);
+        if (startPos != null)
+        {
+            transform.position = new Vector3(startPos.position.x, startPos.position.y, startPos.position.z);
+        }
+        else
+        {
+            transform.position = new Vector3(waypoints[tmpRand].transform.position.x, waypoints[tmpRand].transform.position.y, waypoints[tmpRand].transform.position.z);
+        }
         waypointIndex = tmpRand;
         IterateWaypointIndex();
 
         yBounceOffset = Random.Range(0, 1);
         yBounceFreq = Random.Range(2, 4);
-        
+
         agent = GetComponent<NavMeshAgent>();
         UpdateDestination();
     }

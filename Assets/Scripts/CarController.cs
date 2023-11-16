@@ -40,6 +40,9 @@ public class CarController : MonoBehaviour
         carColliderRB.transform.parent = null;
 
         occupied = false;
+
+        this.fwdSpeed = 150;
+        this.revSpeed = 100;
     }
 
     public static CarController Instance()
@@ -59,15 +62,6 @@ public class CarController : MonoBehaviour
         if (speed != 0)
         {
             moving = true;
-
-            if (speed > 12)
-            {
-                revSpeed = 100;
-            }
-            else
-            {
-                revSpeed = 100;
-            }
         }
         else
         {
@@ -76,7 +70,7 @@ public class CarController : MonoBehaviour
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            turnSpeed = 200; 
+            turnSpeed = 200;
         }
         else
         {

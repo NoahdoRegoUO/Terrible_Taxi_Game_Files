@@ -27,7 +27,8 @@ public class CarEffects : MonoBehaviour
         if (CarController.speed > 5 && CarController.moveValue == 1)
         {
             carAnimator.SetBool("Driving", true);
-        } else
+        }
+        else
         {
             carAnimator.SetBool("Driving", false);
         }
@@ -37,7 +38,8 @@ public class CarEffects : MonoBehaviour
             carAnimator.SetBool("Turning Left", true);
 
             rTrail.emitting = true;
-        } else
+        }
+        else
         {
             carAnimator.SetBool("Turning Left", false);
 

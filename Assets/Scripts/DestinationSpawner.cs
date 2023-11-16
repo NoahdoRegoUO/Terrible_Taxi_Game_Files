@@ -12,11 +12,13 @@ public class DestinationSpawner : MonoBehaviour
 
     public static float time;
     public static bool active;
+    public static string destinationName;
 
     // Start is called before the first frame update
     void Start()
     {
         _instance = this;
+        destinationName = "Out of Service";
         active = false;
         gameObject.SetActive(false);
     }
@@ -60,6 +62,8 @@ public class DestinationSpawner : MonoBehaviour
 
         gameObject.transform.position = destinations[spawnLocation].transform.position;
 
+        destinationName = destinations[spawnLocation].name;
+
         time = 60f;
 
         DestinationPointer.Instance().activate();
@@ -71,6 +75,8 @@ public class DestinationSpawner : MonoBehaviour
         {
             Debug.Log("Sucessful drop off");
             CarController.occupied = false;
+            destinationName = "";
+            time = 0;
             DestinationPointer.Instance().deactivate();
             gameObject.SetActive(false);
         }
