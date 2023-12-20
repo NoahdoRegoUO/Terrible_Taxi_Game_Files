@@ -79,6 +79,11 @@ public class DestinationSpawner : MonoBehaviour
             time = 0;
             DestinationPointer.Instance().deactivate();
             gameObject.SetActive(false);
+            GameController.MinusPedestrian();
+            if (GameController.GetPedestrianCount() <= 0)
+            {
+                GameController.EndGame();
+            }
         }
     }
 }

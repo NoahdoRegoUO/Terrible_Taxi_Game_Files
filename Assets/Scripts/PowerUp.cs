@@ -48,7 +48,7 @@ public class PowerUp : MonoBehaviour
         switch (power)
         {
             case PowerType.Boost:
-                CarController.Instance().fwdSpeed = 220;
+                CarController.Instance().fwdSpeed = 270;
                 break;
             default:
                 break;

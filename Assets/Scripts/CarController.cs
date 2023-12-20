@@ -26,7 +26,7 @@ public class CarController : MonoBehaviour
     public Rigidbody carColliderRB;
 
     public static float speed;
-
+    public static bool drifting;
     public static bool occupied;
 
     [SerializeField] public bool displayOccupied;
@@ -41,8 +41,8 @@ public class CarController : MonoBehaviour
 
         occupied = false;
 
-        this.fwdSpeed = 150;
-        this.revSpeed = 100;
+        this.fwdSpeed = 225;
+        this.revSpeed = 150;
     }
 
     public static CarController Instance()
@@ -107,14 +107,13 @@ public class CarController : MonoBehaviour
         transform.Rotate(0, newRotation, 0, Space.World);
 
         //Sideways tilt
-        if (moving && Input.GetKey(KeyCode.LeftArrow) && Input.GetKey(KeyCode.LeftShift))
+        if (moving && Input.GetKey(KeyCode.LeftArrow) && Input.GetKey(KeyCode.LeftShift) || moving && Input.GetKey(KeyCode.RightArrow) && Input.GetKey(KeyCode.LeftShift))
         {
-
+            drifting = true;
         }
-
-        if (moving && Input.GetKey(KeyCode.RightArrow) && Input.GetKey(KeyCode.LeftShift))
+        else
         {
-
+            drifting = false;
         }
 
         //SHLO MO? awwww yeahhhhh (turn into power up later)
@@ -130,9 +129,9 @@ public class CarController : MonoBehaviour
         }
 
         //check if above ground
-        if (transform.position.y < 0)
+        if (transform.position.y < 0.5f || transform.position.y > 0.5f)
         {
-            transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+            transform.position = new Vector3(transform.position.x, 0.5f, transform.position.z);
         }
 
         //Display occupied status (TESTING)

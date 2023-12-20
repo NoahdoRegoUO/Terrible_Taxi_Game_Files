@@ -8,6 +8,8 @@ public class UIScript : MonoBehaviour
     public Text speedText;
     public Text timeText;
     public Text destinationText;
+    public Text pedestrianText;
+    public Text timerText;
 
     // Start is called before the first frame update
     void Start()
@@ -20,9 +22,9 @@ public class UIScript : MonoBehaviour
     {
         // TODO: Change to setters to prevent constant checking in update method
         speedText.text = ((int)CarController.speed * 2).ToString();
-
         timeText.text = ((int)DestinationSpawner.time).ToString();
-
         destinationText.text = DestinationSpawner.destinationName;
+        pedestrianText.text = GameController.GetPedestrianCount().ToString();
+        timerText.text = GameController.GetGameTime();
     }
 }

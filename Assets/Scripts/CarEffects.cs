@@ -13,12 +13,21 @@ public class CarEffects : MonoBehaviour
     [SerializeField]
     private TrailRenderer rTrail;
 
+    [SerializeField] private GameObject boostTrail;
+
     public Animator carAnimator;
+    private AudioSource audioSource;
+    private float audioPitch = 0.5f;
 
     // Start is called before the first frame update
     void Start()
     {
+        // Disable effects
+        boostTrail.SetActive(false);
 
+        // set audio source
+        audioSource = gameObject.GetComponent<AudioSource>();
+        audioSource.pitch = audioPitch;
     }
 
     // Update is called once per frame
@@ -59,10 +68,23 @@ public class CarEffects : MonoBehaviour
             lTrail.emitting = false;
         }
 
+        if (CarController.speed * 2 > 100 && !CarController.drifting)
+        {
+            boostTrail.SetActive(true);
+        }
+        else
+        {
+            boostTrail.SetActive(false);
+        }
+
         // spin wheels
         foreach (var wheel in wheels)
         {
             wheel.transform.Rotate(CarController.speed, 0, 0, Space.Self);
         }
+
+        //set audio
+        audioPitch = 0.5f + (CarController.speed / 40);
+        audioSource.pitch = audioPitch;
     }
 }
