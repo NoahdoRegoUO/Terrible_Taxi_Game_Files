@@ -1,15 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UIScript : MonoBehaviour
 {
-    public Text speedText;
-    public Text timeText;
-    public Text destinationText;
-    public Text pedestrianText;
-    public Text timerText;
+    public TextMeshProUGUI speedText;
+    public TextMeshProUGUI timeText;
+    public TextMeshProUGUI destinationText;
+    public TextMeshProUGUI pedestrianText;
+    public TextMeshProUGUI timerText;
 
     // Start is called before the first frame update
     void Start()

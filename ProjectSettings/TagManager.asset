@@ -9,6 +9,8 @@ TagManager:
   - Destroyable
   - Pedestrian
   - Destination
+  - FxTemporaire
+  - GameOverScreen
   layers:
   - Default
   - TransparentFX
