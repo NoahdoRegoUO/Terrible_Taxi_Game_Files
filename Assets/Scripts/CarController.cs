@@ -116,18 +116,6 @@ public class CarController : MonoBehaviour
             drifting = false;
         }
 
-        //SHLO MO? awwww yeahhhhh (turn into power up later)
-        if (Input.GetKey(KeyCode.Space))
-        {
-            Time.timeScale = 0.5f;
-            Time.fixedDeltaTime = 0.02f * Time.timeScale;
-        }
-        else
-        {
-            Time.timeScale = 1f;
-            Time.fixedDeltaTime = 0.02f * Time.timeScale;
-        }
-
         //check if above ground
         if (transform.position.y < 0.5f || transform.position.y > 0.5f)
         {

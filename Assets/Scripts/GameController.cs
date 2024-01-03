@@ -8,9 +8,11 @@ public class GameController : MonoBehaviour
     private static int pedestrianCount;
     private double timeTaken;
     private static string timeDisplay;
-    private static bool gameEnded = false;
-
+    private AudioClip currentSong;
+    public static bool gameEnded = false;
     public static GameObject gameOverScreen;
+    public GameObject pauseMenu;
+    public static bool paused;
 
     public static int GetPedestrianCount()
     {
@@ -41,12 +43,32 @@ public class GameController : MonoBehaviour
         }
     }
 
+    public void Pause()
+    {
+        Time.timeScale = 0;
+        paused = true;
+        pauseMenu.SetActive(true);
+    }
+
+    public void SetSong()
+    {
+        AudioSource audio = GetComponent<AudioSource>();
+        currentSong = Settings.song;
+        audio.clip = currentSong;
+        audio.Play();
+    }
+
     void Start()
     {
+        AudioSource audio = GetComponent<AudioSource>();
+        audio.clip = Settings.song;
+        audio.Play();
         pedestrianCount = 10;
         gameOverScreen = GameObject.FindGameObjectWithTag("GameOverScreen");
-        GameOverScreen.timeFlag = true;
+        GameOverScreen.setupFlag = true;
         gameOverScreen.SetActive(false);
+        pauseMenu.SetActive(false);
+        paused = false;
     }
 
     void Update()
@@ -58,5 +80,24 @@ public class GameController : MonoBehaviour
                 interval.Minutes,
                 interval.Seconds,
                 interval.Milliseconds);
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (!paused)
+            {
+                Pause();
+            }
+            else
+            {
+                paused = false;
+                Time.timeScale = 1;
+                pauseMenu.SetActive(false);
+            }
+        }
+
+        if (!paused)
+        {
+            pauseMenu.SetActive(false);
+        }
     }
 }

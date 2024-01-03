@@ -21,14 +21,22 @@ public class PowerUp : MonoBehaviour
 
     void Start()
     {
-        power = PowerType.Boost;
+        if (Settings.powerupsEnabled)
+        {
+            power = PowerType.Boost;
 
-        int tmpRand = Random.Range(0, locations.Length - 1);
-        transform.position = new Vector3(locations[tmpRand].transform.position.x, locations[tmpRand].transform.position.y, locations[tmpRand].transform.position.z);
+            int tmpRand = Random.Range(0, locations.Length - 1);
+            transform.position = new Vector3(locations[tmpRand].transform.position.x, locations[tmpRand].transform.position.y, locations[tmpRand].transform.position.z);
 
-        visual = gameObject.transform;
-        visual.Rotate(Vector3.forward, -20, Space.World);
-        StartCoroutine(FloatAnimation());
+            visual = gameObject.transform;
+            visual.Rotate(Vector3.forward, -20, Space.World);
+            StartCoroutine(FloatAnimation());
+        }
+        else
+        {
+            gameObject.SetActive(false);
+            Destroy(this);
+        }
     }
 
     void OnTriggerEnter(Collider other)
